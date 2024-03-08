@@ -10,8 +10,16 @@
             background-color: #eaf6fd;
             background-image: url("/static/images/backgroud.png");
             background-size: cover;
+
             background-position: center;
+            background-attachment: fixed;
             background-repeat: no-repeat;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .login-container {
@@ -117,7 +125,7 @@
             <img src="/static/images/header.png" alt="Logo">
 
         </div>
-        <form action="/login" method="POST" name="form1" onsubmit="encryptAndSubmit();">
+        <form action="/" method="POST" name="form1" onsubmit="encryptAndSubmit();">
             <!-- 表单内容 -->
             <div class="message-container">
                 <p>{{.message}}</p>
