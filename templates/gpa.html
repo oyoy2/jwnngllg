@@ -156,17 +156,22 @@
             margin-top: 20px;
         }
         .average-gpa {
-            margin-top: 20px;
             justify-content: center;
             display: flex;
         }
 
         .average-gpa p {
-            margin: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
             font-weight: bold;
             font-size: 18px;
         }
         .file a{
+            text-align: center;
+            margin-top: 20px;
+            display: block;
+        }
+        .file p{
             text-align: center;
             margin-top: 20px;
             display: block;
@@ -186,14 +191,20 @@
             <li class="menu-item"><a href="/logout">退出系统</a></li>
         </ul>
         <div class="content-area">
-            <h1>绩点计算</h1>
+            <div class="average-gpa">
+                <p>平均学分绩点：{{.ScoreExcel.AverageGPA}}</p>
+                <p>加权平均分：{{.ScoreExcel.Weighted}}</p>
+                <p>算数平均分：{{.ScoreExcel.Arithmetic}}</p>
+                <p>不及格门数：{{.Fail}}</p>
+            </div>
             {{if .GPAS}}
             <div class="table-container">
                 <table>
                     <tr>
                         <th>学年</th>
-                        <th>绩点</th>
                         <th>名称</th>
+                        <th>绩点</th>
+                        <th>总评</th>
                         <th>学分</th>
                         <th>类别</th>
                         <th>状态</th>
@@ -201,8 +212,9 @@
                     {{range .GPAS}}
                     <tr>
                         <td>{{.Year}}</td>
-                        <td>{{.Gradepoints}}</td>
                         <td>{{.Coursename}}</td>
+                        <td>{{.Gradepoints}}</td>
+                        <td>{{.Score}}</td>
                         <td>{{.Credits}}</td>
                         <td>{{.Categories}}</td>
                         <td>{{.Status}}</td>
@@ -214,13 +226,10 @@
             <p>暂无绩点信息</p>
             {{end}}
         </div>
-        <div class="average-gpa">
-            <p>平均学分绩点：{{.averageGPAString}}</p>
-            <p>加权平均分：{{.averageGPAString}}</p>
-            <p>算数平均分：{{.averageGPAString}}</p>
-            <p>不及格门数：{{.Fail}}</p>
-        </div>
         <div class="file">
+            <p>平均学分绩点＝∑（课程学分数×绩点数）／∑课程学分数</p>
+            <p>加权平均分等＝∑（课程学分数×总评分数）／∑课程学分数</p>
+            <p>算术平均分＝∑（总评分数）／科目数量</p>
             <a href="https://nnfx.glut.edu.cn/__local/2/0B/90/956EEC4AEA9A0F705C186ACCF2D_0DAE76D0_6600.doc?e=.doc">桂林理工大学南宁分校学分绩点计算办法</a>
             <a href="https://nnfx.glut.edu.cn/__local/2/0B/90/956EEC4AEA9A0F705C186ACCF2D_0DAE76D0_6600.doc?e=.doc">公共必修课体育等素质类必修课不参与学分绩点计算汇总表</a>
         </div>

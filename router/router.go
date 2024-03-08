@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"nngllgjw/config"
 	"nngllgjw/controller"
-	"strconv"
 	"strings"
 )
 
@@ -122,16 +121,13 @@ func Router() {
 		}
 		if loggedIn == true {
 			sessionS := sessions.Default(c)
-			GPAS, _, averageGPA, Fail := controller.GetAllStudentOwnScores(cookie_list)
-
-			averageGPAString := strconv.FormatFloat(float64(averageGPA), 'f', 2, 64)
-
+			GPAS, _, ScoreExcel, Fail := controller.GetAllStudentOwnScores(cookie_list)
 			sessionS.Save()
 			c.HTML(http.StatusOK, "gpa.html", gin.H{
-				"message":          "GPA计算",
-				"GPAS":             GPAS,
-				"averageGPAString": averageGPAString,
-				"Fail":             Fail,
+				"message":    "GPA计算",
+				"GPAS":       GPAS,
+				"ScoreExcel": ScoreExcel,
+				"Fail":       Fail,
 			})
 		} else {
 			c.Redirect(http.StatusFound, "/")
