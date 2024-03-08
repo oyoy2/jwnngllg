@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>桂工教务助手</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <script src="/static/js/md5.js"></script>
+    <style>
+        body {
+            background-color: #eaf6fd;
+            background-image: url("/static/images/backgroud.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .login-container {
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation-name: fade-in;
+            animation-duration: 1s;
+            animation-fill-mode: both;
+        }
+
+        .logo-banner {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-banner img {
+            width: 300px;
+            filter: invert(1); /* 反转颜色 */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(0, 123, 255, 0.8);
+            border: none;
+            color: #ffffff;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .form-group button:hover {
+            background-color: rgba(0, 86, 179, 0.8);
+        }
+
+        form {
+            background-color: transparent;
+
+        }
+        #captcha-image {
+            width: 150px;
+            height: 40px;
+
+        }
+
+        .message-container {
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .message-container p {
+            color: #0275ef;
+            font-weight: bold;
+            margin: 0;
+            text-align: center;
+        }
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .Bottom{
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="login-container">
+        <div class="logo-banner">
+            <img src="/static/images/header.png" alt="Logo">
+
+        </div>
+        <form action="/login" method="POST" name="form1" onsubmit="encryptAndSubmit();">
+            <!-- 表单内容 -->
+            <div class="message-container">
+                <p>{{.message}}</p>
+            </div>
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="请输入用户名">
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="请输入密码">
+            </div>
+
+            <div class="form-group">
+                <label for="captcha">验证码</label>
+                <div style="position: relative;">
+                    <input type="text" name="captcha" id="captcha" class="form-control" placeholder="请输入验证码">
+                    <img src="data:image/jpeg;base64,{{.image}}" alt="验证码" id="captcha-image" style="position: absolute; top: 0; right: 0;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" name="jsessionid" id="cookie-input" value="{{.jsessionid}}">
+                <button type="submit" class="btn btn-primary">登录</button>
+            </div>
+        </form>
+        <div class="Bottom">
+            <p>
+                <a href="https://github.com/oyoy2">
+                    GengZ 2024
+                    <i class="fa fa-github" aria-hidden="true"></i>
+                </a>
+                本站已开源
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    function encryptAndSubmit() {
+        var passwordInput = document.getElementById("password");
+        var passwordValue = passwordInput.value;
+        var encryptedPassword = submit_hex_md5(passwordValue);
+        passwordInput.value = encryptedPassword;
+        document.form1.submit();
+    }
+</script>
+</body>
+</html>

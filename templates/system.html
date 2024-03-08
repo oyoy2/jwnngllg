@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>桂工教务助手</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+
+    <style>
+        body {
+            background-color: #eaf6fd;
+            background-image: url("/static/images/backgroud.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            width: 500px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation-name: fade-in;
+            animation-duration: 1s;
+            animation-fill-mode: both;
+        }
+        .flex{
+            display: flex;
+            align-items: center;
+        }
+        .logo-banner {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-banner img {
+            width: 300px;
+            filter: invert(1); /* 反转颜色 */
+        }
+
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .menu-item {
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-item a {
+            display: block;
+            padding: 10px;
+            color: #000000;
+            text-decoration: none;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .menu-item a:hover {
+            border-radius: 10px;
+
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-area {
+            background-color: rgba(0, 123, 255, 0.1);
+
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .content-area h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .content-area ul {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+        }
+
+        .content-area li {
+            padding: 10px;
+            border-radius: 5px;
+            width: 50%;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .content-area li:before {
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        .content-area li span {
+            font-weight: bold;
+        }
+        .popup-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: rgba(61, 153, 246, 0.8);
+            color: #ffffff;
+            border-radius: 5px;
+            display: none;
+        }
+        .Bottom{
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="popup-notification" class="popup-notification"></div>
+<div class="container">
+    <div class="login-container">
+        <div class="logo-banner">
+                <img src="/static/images/header.png" alt="Logo">
+        </div>
+        <ul class="menu-list">
+                <li class="menu-item"><a href="/GPA">绩点计算</a></li>
+                <li class="menu-item"><a href="/coursearrange">课表下载</a></li>
+                <li class="menu-item"><a href="/logout">退出系统</a></li>
+        </ul>
+        <div class="content-area">
+                <h1>个人信息</h1>
+                <ul>
+                    <li>用户名: {{.PersonalInfo.Username}}</li>
+                    <li>真实姓名: {{.PersonalInfo.RealName}}</li>
+                    <li>所在院系: {{.PersonalInfo.Department}}</li>
+                    <li>专业: {{.PersonalInfo.Major}}</li>
+                    <li>方向: {{.PersonalInfo.Direction}}</li>
+                    <li>学生类别: {{.PersonalInfo.StudentType}}</li>
+                    <li>年级: {{.PersonalInfo.Grade}}</li>
+                    <li>班级: {{.PersonalInfo.Class}}</li>
+                    <li>证件类型: {{.PersonalInfo.IDType}}</li>
+                    <li>证件号码: {{.PersonalInfo.IDNumber}}</li>
+                    <li>电子邮箱: {{.PersonalInfo.Email}}</li>
+                    <li>联系电话: {{.PersonalInfo.Phone}}</li>
+                    <li>通讯地址: {{.PersonalInfo.Address}}</li>
+                    <li>邮政编码: {{.PersonalInfo.PostalCode}}</li>
+                </ul>
+            </div>
+        <div class="Bottom">
+            <p>
+                <a href="https://github.com/oyoy2">
+                    GengZ 2024
+                    <i class="fa fa-github" aria-hidden="true"></i>
+                </a>
+                本站已开源
+            </p>
+        </div>
+        </div>
+    </div>
+<script>
+    var popup = document.getElementById("popup-notification");
+    function showPopupNotification(message) {
+        popup.innerText = message; // 设置通知消息
+        popup.style.display = "block"; // 显示通知框
+        setTimeout(function() {
+            popup.style.display = "none"; // 3秒后隐藏通知框
+        }, 3000);
+    }
+    showPopupNotification("{{.message}}！");
+</script>
+</body>
+</html>
