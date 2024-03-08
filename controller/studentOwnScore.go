@@ -26,13 +26,13 @@ type StudentOwnScoreExcel struct {
 	AverageGPA string `json:"AverageGPA"`
 }
 
-func GetAllStudentOwnScores(cookies *http.Cookie) ([]*StudentOwnScore, error, StudentOwnScoreExcel, int) {
+func GetAllStudentOwnScores(cookies *http.Cookie, year string, term string) ([]*StudentOwnScore, error, StudentOwnScoreExcel, int) {
 	allScores := []*StudentOwnScore{}
 	ScoreExcel := StudentOwnScoreExcel{}
 	request := gorequest.New()
 	resp, body, errs := request.Post(config.BaseURL+config.Personal_grades_inquiry).
 		Set("Cookie", cookies.String()).
-		Send("year=&term=&prop=&groupName=&para=0&sortColumn=&Submit=%E6%9F%A5%E8%AF%A2").
+		Send("year=" + year + "&term=" + term + "&prop=&groupName=&para=0&sortColumn=&Submit=%E6%9F%A5%E8%AF%A2").
 		End()
 	if errs != nil {
 		return nil, errs[0], ScoreExcel, 0

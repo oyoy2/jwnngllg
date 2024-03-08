@@ -176,6 +176,41 @@
             margin-top: 20px;
             display: block;
         }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+        }
+
+        .select {
+            width: 300px;
+            height: 40px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+
+        }
+
+        .form-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-group {
+            margin-right: 10px;
+        }
+        label {
+            display: inline-block;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #555;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -190,14 +225,35 @@
             <li class="menu-item"><a href="/coursearrange">课表下载</a></li>
             <li class="menu-item"><a href="/logout">退出系统</a></li>
         </ul>
+        <form action="/GPA" method="POST" class="form-container">
+            <div class="form-group flex">
+                <label for="year">选择年份：</label>
+                <select name="year" id="year" class="form-control select">
+                    <option value="">全部</option>
+                    <option value="44">2024</option>
+                    <option value="40">2020</option>
+                    <option value="41">2021</option>
+                    <option value="42">2022</option>
+                    <option value="43">2023</option>
+                </select>
+                <label for="term">选择学期：</label>
+                <select name="term" id="term" class="form-control select">
+                    <option value="">全部</option>
+                    <option value="1">春</option>
+                    <option value="3">秋</option>
+                </select>
+                <button type="submit" class="btn btn-primary">查询</button>
+            </div>
+        </form>
         <div class="content-area">
+
+            {{if .GPAS}}
             <div class="average-gpa">
                 <p>平均学分绩点：{{.ScoreExcel.AverageGPA}}</p>
                 <p>加权平均分：{{.ScoreExcel.Weighted}}</p>
                 <p>算数平均分：{{.ScoreExcel.Arithmetic}}</p>
                 <p>不及格门数：{{.Fail}}</p>
             </div>
-            {{if .GPAS}}
             <div class="table-container">
                 <table>
                     <tr>
@@ -223,7 +279,7 @@
                 </table>
             </div>
             {{else}}
-            <p>暂无绩点信息</p>
+            <p style="text-align: center;margin: auto;font-weight: bold;">{{.message}}!</p>
             {{end}}
         </div>
         <div class="file">
@@ -253,7 +309,7 @@
             popup.style.display = "none"; // 3秒后隐藏通知框
         }, 3000);
     }
-    showPopupNotification("{{.message}}！");
+    showPopupNotification("桂工教务助手-登陆成功！");
 </script>
 </body>
 </html>

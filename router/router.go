@@ -112,16 +112,33 @@ func Router() {
 		jsessionid := session.Get("jsessionid")
 		if jsessionid == nil {
 			c.Redirect(http.StatusFound, "/")
-
-		}
-		stringValue := jsessionid.(string)
-		cookie_list := &http.Cookie{
-			Name:  "JSESSIONID",
-			Value: stringValue,
 		}
 		if loggedIn == true {
+			c.HTML(http.StatusOK, "gpa.html", gin.H{
+				"message": "请选择年份和学期",
+			})
+		} else {
+			c.Redirect(http.StatusFound, "/")
+		}
+	})
+	router.POST("/GPA", func(c *gin.Context) {
+		session := sessions.Default(c)
+		loggedIn := session.Get("loggedIn")
+		jsessionid := session.Get("jsessionid")
+		if jsessionid == nil {
+			c.Redirect(http.StatusFound, "/")
+
+		}
+		if loggedIn == true {
+			stringValue := jsessionid.(string)
+			cookie_list := &http.Cookie{
+				Name:  "JSESSIONID",
+				Value: stringValue,
+			}
 			sessionS := sessions.Default(c)
-			GPAS, _, ScoreExcel, Fail := controller.GetAllStudentOwnScores(cookie_list)
+			year := c.PostForm("year")
+			term := c.PostForm("term")
+			GPAS, _, ScoreExcel, Fail := controller.GetAllStudentOwnScores(cookie_list, year, term)
 			sessionS.Save()
 			c.HTML(http.StatusOK, "gpa.html", gin.H{
 				"message":    "GPA计算",
