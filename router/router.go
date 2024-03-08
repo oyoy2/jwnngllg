@@ -62,9 +62,14 @@ func Router() {
 		}
 	})
 	router.GET("/system", func(c *gin.Context) {
+
 		session := sessions.Default(c)
 		loggedIn := session.Get("loggedIn")
 		jsessionid := session.Get("jsessionid")
+		if jsessionid == nil {
+			c.Redirect(http.StatusFound, "/")
+
+		}
 		stringValue := jsessionid.(string)
 		cookie_list := &http.Cookie{
 			Name:  "JSESSIONID",
@@ -106,6 +111,10 @@ func Router() {
 		session := sessions.Default(c)
 		loggedIn := session.Get("loggedIn")
 		jsessionid := session.Get("jsessionid")
+		if jsessionid == nil {
+			c.Redirect(http.StatusFound, "/")
+
+		}
 		stringValue := jsessionid.(string)
 		cookie_list := &http.Cookie{
 			Name:  "JSESSIONID",
