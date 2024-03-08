@@ -55,7 +55,7 @@ func GetAllStudentOwnScores(cookies *http.Cookie) ([]*StudentOwnScore, error, fl
 							fmt.Println("绩点数转换错误:", err)
 							return
 						}
-						if strings.TrimSpace(tds.Eq(12).Text()) == "不合格" {
+						if strings.TrimSpace(tds.Eq(12).Text()) == "不及格" {
 							Fail++
 						}
 						if strings.Contains(strings.TrimSpace(tds.Eq(3).Text()), "习近平新时代中国特色社会主义思想概论") {
