@@ -18,7 +18,7 @@ func Router() {
 	router.Use(sessions.Sessions("session", store))
 	router.LoadHTMLGlob("templates/*.html")
 	router.Static("/static", "./static")
-	router.GET("/login", func(c *gin.Context) {
+	router.GET("/", func(c *gin.Context) {
 		jsessionid, img := controller.Captcha()
 		c.HTML(200, "login.html", gin.H{
 			"jsessionid": jsessionid,
@@ -27,7 +27,7 @@ func Router() {
 		})
 	})
 
-	router.POST("/login", func(c *gin.Context) {
+	router.POST("/", func(c *gin.Context) {
 		// 获取表单提交的数据
 		captcha := c.PostForm("captcha")
 		jsessionid := c.PostForm("jsessionid")
@@ -99,7 +99,7 @@ func Router() {
 			}
 			c.File(excel)
 		} else {
-			c.Redirect(http.StatusFound, "/login")
+			c.Redirect(http.StatusFound, "/")
 		}
 	})
 	router.GET("/GPA", func(c *gin.Context) {
@@ -125,14 +125,14 @@ func Router() {
 				"Fail":             Fail,
 			})
 		} else {
-			c.Redirect(http.StatusFound, "/login")
+			c.Redirect(http.StatusFound, "/")
 		}
 	})
 	router.GET("/logout", func(c *gin.Context) {
 		session := sessions.Default(c)
 		session.Clear()
 		session.Save()
-		c.Redirect(http.StatusFound, "/login")
+		c.Redirect(http.StatusFound, "/")
 
 	})
 	router.Run(":" + config.Port)
